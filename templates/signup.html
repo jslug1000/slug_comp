@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>competition app - sign up</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <!-- <script src="../static/js/signIn.js"></script> -->
+    <!-- <script src="../static/js/signUp3.js"></script> -->
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/">home</a></li>
+            <li role="presentation"><a href="/showSignin">sign in</a></li>
+            <li role="presentation" class="active"><a href="#">sign up</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">the muy grande competition app</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>your details please</h1>
+        <form class="form-signin" action="/validateSignup" method="post">
+        <label for="inputName" class="sr-only">name</label>
+        <input type="name" name="inputName" id="inputName" class="form-control" placeholder="name" required autofocus>
+        <label for="inputUsername" class="sr-only">username</label>
+        <input type="name" name="inputUsername" id="inputUsername" class="form-control" placeholder="username" required autofocus>
+        <label for="inputPassword" class="sr-only">password</label>
+        <input type="Password" name="inputPassword" id="inputPassword" class="form-control" placeholder="password" required>
+
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">sign up</button>
+      </form>
+      </div>
+
+
+
+      <footer class="footer">
+        <p>&copy; jslug 2017</p>
+      </footer>
+
+    </div>
+  </body>
+</html>

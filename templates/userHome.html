@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>homepage</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="/logout">logout</a>
+                    <li role="presentation"><a href="/createTournament">create new tournament</a></li>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">the muy grande competition app</h3>
+        </div>
+
+        <div class="jumbotron">
+            <h1>welcome, {{user}}</h1>
+
+        </div>
+
+        <footer class="footer">
+            <p>&copy; slug 2017</p>
+        </footer>
+
+    </div>
+</body>
+
+</html>
