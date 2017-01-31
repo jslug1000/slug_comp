@@ -102,19 +102,11 @@ def userHome():
 @app.route('/createTournament', methods=['POST', 'GET'])
 def createTournament():
     if session.get('user'):
-        con = mysql.connect()
-        cursor = con.cursor()
-        cursor.callproc('sp_GetAllUsers', ())
-        users = cursor.fetchall()
-        users_list = []
-        for u in users:
-            users_dict = {'user': u[0]}
-        users_list.append(users_dict)
-        return json.dumps(wishes_dict)
-        return render_template('error.html', error=users_list)
-        # return render_template('create_tournament.html', user=session.get('user'))
+        return render_template('create_tournament.html', user=session.get('user'))
     else:
         return render_template('error.html', error='you need to login first')
+
+
 
 @app.route('/validateTournament', methods=['POST', 'GET'])
 def validateTournament():
@@ -128,10 +120,11 @@ def validateTournament():
         data = cursor.fetchall()
 
         if len(data)==0:
+            session['tournament'] = _tournament
             conn.commit()
             cursor.close()
             conn.close()
-            return redirect('/userHome')
+            return redirect('/addCompetitors')
         else:
             return render_template('error.html', error='a tournament of that name already exists, please choose another')
 
@@ -141,32 +134,69 @@ def validateTournament():
     #     return render_template('error.html', error=str(e))
 
 
-# @app.route('/getWish')
-# def getWish():
-#     try:
-#         if session.get('user'):
-#             _user = session.get('user')
-#
-#             con = mysql.connect()
-#             cursor = con.cursor()
-#             cursor.callproc('sp_GetWishByUser', (_user,))
-#             wishes = cursor.fetchall()
-#
-#             wishes_dict = []
-#             for wish in wishes:
-#                 wish_dict = {
-#                     'Id': wish[0],
-#                     'Title': wish[1],
-#                     'Description': wish[2],
-#                     'Date': wish[4]}
-#                 wishes_dict.append(wish_dict)
-#
-#             return json.dumps(wishes_dict)
-#         else:
-#             return render_template('error.html', error='Unauthorized Access')
-#     except Exception as e:
-#         return render_template('error.html', error=str(e))
+@app.route('/showCompetitors', methods=['POST', 'GET'])
+def showCompetitors():
+    if session.get('user'):
+        return render_template('showCompetitors.html', user=session.get('user'))
+    else:
+        return render_template('error.html', error='you need to login first')
 
+@app.route('/displayCompetitors')
+def displayCompetitors():
+    try:
+        if session.get('user'):
+            con = mysql.connect()
+            cursor = con.cursor()
+            cursor.callproc('sp_GetAllUsers')
+            users = cursor.fetchall()
+
+            users_list = []
+            for user in users:
+                user_dict = {'username': user[0]}
+                users_list.append(user_dict)
+
+            cursor.close()
+            con.close()
+
+            return json.dumps(users_list)
+        else:
+            return render_template('error.html', error='unauthorised access')
+    except Exception as e:
+        return render_template('error.html', error=str(e))
+
+
+@app.route('/addCompetitors', methods=['POST', 'GET'])
+def addCompetitors():
+    if session.get('user'):
+        return render_template('addCompetitors.html', user=session.get('user'))
+    else:
+        return render_template('error.html', error='you need to login first')
+
+@app.route('/validateCompetitor', methods=['POST', 'GET'])
+def validateCompetitor():
+    try:
+        _entered_by = session.get('user')
+        _tournament = session.get('tournament')
+        _competitor = request.form['inputCompetitor']
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.callproc('sp_createCompetitor', (_tournament, _competitor, _entered_by))
+        data = cursor.fetchall()
+
+        if 'this' in data:   # check for error message
+            return render_template('error.html', error=data)
+
+        elif len(data)==0:
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return redirect('/addCompetitors')
+        else:
+            return render_template('error.html', error=data)
+
+    except Exception as e:
+        return render_template('error.html', error=str(e))
 
 @app.route('/logout')
 def logout():

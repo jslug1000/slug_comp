@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>competition app - show competitors</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script>
+	$(function(){
+		$.ajax({
+			url : '/displayCompetitors',
+			type : 'GET',
+			success: function(res){
+				var div = $('<div>')
+    .attr('class', 'list-group')
+    .append($('<a>')
+        .attr('class', 'list-group-item active')
+        .append($('<h4>')
+            .attr('class', 'list-group-item-heading'),
+            $('<p>')
+            .attr('class', 'list-group-item-text')));
+
+
+				var userObj = JSON.parse(res);
+				var user = '';
+
+				$.each(userObj,function(index, value){
+					user = $(div).clone();
+					$(user).find('h4').text(value.username);
+					$('.jumbotron').append(user);
+				});
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	});
+    </script>
+
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="/logout">logout</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">the muy grande competition app</h3>
+      </div>
+
+      <div class="jumbotron">
+
+      </div>
+
+
+      <footer class="footer">
+        <p>&copy; jslug 2017</p>
+      </footer>
+
+    </div>
+  </body>
+</html>

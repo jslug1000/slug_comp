@@ -12,7 +12,7 @@ create table game_points (
   gp_id int primary key not null auto_increment,
   game_id int not null,
   position int not null,
-  points float not null  
+  points float not null
 );
 
 create table results (
@@ -41,5 +41,7 @@ create table users (
 create table tournament_players (
   player_id int primary key not null auto_increment,
   user_id int not null,
-  tournament_id int not null
+  tournament_id int not null,
+  entered_by int not null,
+  added_at date
 );
