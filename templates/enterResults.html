@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>competition app - create game</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script>
+    $("#first-choice").change(function() {
+$("#second-choice").load("getter.php?choice=" + $("#first-choice").val());
+}).trigger("change");
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/competitorHome">home</a></li>
+            <li role="presentation" ><a href="/createTournament">create tournament</a></li>
+
+
+          </ul>
+        </nav>
+        <!-- <h3 class="text-muted">the muy grande competition app</h3> -->
+      </div>
+
+      <div class="jumbotron">
+        <h3>please enter game details below</h3>
+        <form class="form-signin" action="/validatePoints" method="post">
+          <label for="inputTournamentName" class="sr-only">tournament name</label>
+          <input type="name" name="inputTournamentName" id="inputTournamentName" class="form-control" placeholder="tournament XXX" required autofocus>
+          <label for="inputGameName" class="sr-only">game name</label>
+          <input type="name" name="inputGameName" id="inputGameName" class="form-control" placeholder="game XXX" required autofocus>
+          <label for="input1Place" class="sr-only">winner</label>
+          <input type="name" name="input1Place" id="input1Place" class="form-control" placeholder="winner" required>
+          <label for="input2Place" class="sr-only">second place</label>
+          <input type="name" name="input2Place" id="input2Place" class="form-control" placeholder="second place">
+          <label for="input3Place" class="sr-only">third place</label>
+          <input type="name" name="input3Place" id="input3Place" class="form-control" placeholder="third place">
+          <label for="input4Place" class="sr-only">fourth place</label>
+          <input type="name" name="input4Place" id="input4Place" class="form-control" placeholder="fourth place">
+          <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">enter results</button>
+      </form>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; jslug 2017</p>
+      </footer>
+
+    </div>
+  </body>
+</html>

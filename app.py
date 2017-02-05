@@ -44,7 +44,7 @@ def validateSignup():
             if len(data) == 0:
                 conn.commit()
                 session['user'] = _username
-                return redirect('/userHome')
+                return redirect('/competitorHome')
             else:
                 return render_template('error.html', error='this username is already taken')
         else:
@@ -73,7 +73,7 @@ def validateLogin():
         if len(data) > 0:
             if data[0][3] == _password:
                 session['user'] = data[0][1]
-                return redirect('/userHome')
+                return redirect('/competitorHome')
             else:
                 return render_template('error.html', error='wrong username or password')
         else:
@@ -92,17 +92,18 @@ def showSignin():
     return render_template('signin.html')
 
 
-@app.route('/userHome')
-def userHome():
+@app.route('/competitorHome')
+def competitorHome():
     if session.get('user'):
-        return render_template('userHome.html', user=session.get('user'))
+        message = 'welcome home, ' + session.get('user')
+        return render_template('competitorHome.html', message=message)
     else:
-        return render_template('error.html', error='unauthorised access')
+        return render_template('error.html', error='you need to login first')
 
 @app.route('/createTournament', methods=['POST', 'GET'])
 def createTournament():
     if session.get('user'):
-        return render_template('create_tournament.html', user=session.get('user'))
+        return render_template('createTournament.html', user=session.get('user'))
     else:
         return render_template('error.html', error='you need to login first')
 
@@ -168,7 +169,7 @@ def displayCompetitors():
 @app.route('/addCompetitors', methods=['POST', 'GET'])
 def addCompetitors():
     if session.get('user'):
-        return render_template('addCompetitors.html', user=session.get('user'))
+        return render_template('addCompetitors.html')
     else:
         return render_template('error.html', error='you need to login first')
 
@@ -187,7 +188,7 @@ def validateCompetitor():
         if 'this' in data:   # check for error message
             return render_template('error.html', error=data)
 
-        elif len(data)==0:
+        elif len(data) == 0:
             conn.commit()
             cursor.close()
             conn.close()
@@ -198,10 +199,124 @@ def validateCompetitor():
     except Exception as e:
         return render_template('error.html', error=str(e))
 
+@app.route('/createGame')
+def createGame():
+    if session.get('user'):
+        return render_template('createGame.html')
+    else:
+        return render_template('error.html', error='you need to login first')
+
+@app.route('/validateGame', methods=['POST', 'GET'])
+def validateGame():
+    try:
+        _entered_by = session.get('user')
+        _tournament = request.form['inputTournamentName']
+        _game = request.form['inputGameName']
+        _1points = request.form['input1Points']
+        _2points = request.form['input2Points']
+        _3points = request.form['input3Points']
+        _4points = request.form['input4Points']
+        # _partpoints = request.form['inputParticipationPoints']
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.callproc('sp_createGame', (_tournament, _game, _entered_by, _1points, _2points, _3points, _4points))
+        data = cursor.fetchall()
+
+        if 'this' in data:   # check for error message
+            return render_template('error.html', error=data)
+
+        elif len(data) == 0:
+            conn.commit()
+            cursor.close()
+            conn.close()
+            message = 'game created successfully'
+            return render_template('competitorHome.html', message=message)
+        else:
+            return render_template('error.html', error=data)
+
+    except Exception as e:
+        return render_template('error.html', error=str(e))
+
+
+@app.route('/setupGame')
+def setupGame():
+    if session.get('user'):
+        return render_template('gameSetup.html')
+    else:
+        return render_template('error.html', error='you need to login first')
+
+
+
+@app.route('/validateResults', methods=['POST', 'GET'])
+def validateResults():
+    try:
+        _entered_by = session.get('user')
+        _tournament = request.form['inputTournamentName']
+        _game = request.form['inputGameName']
+        _1place = request.form['input1Place']
+        _2place = request.form['input2Place']
+        _3place = request.form['input3Place']
+        _4place = request.form['input4Place']
+        _partpoints = request.form['inputParticipationPoints']
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.callproc('sp_createGame', (_tournament, _game, _entered_by, _1place, _2place, _3place, _4place))
+        data = cursor.fetchall()
+
+        if 'this' in data:   # check for error message
+            return render_template('error.html', error=data)
+
+        elif len(data) == 0:
+            conn.commit()
+            cursor.close()
+            conn.close()
+            message = 'results entered successfully'
+            return render_template('competitorHome.html', message=message)
+        else:
+            return render_template('error.html', error=data)
+
+    except Exception as e:
+        return render_template('error.html', error=str(e))
+
+@app.route('/validateResults', methods=['POST', 'GET'])
+def validateResults():
+    try:
+        _entered_by = session.get('user')
+        _tournament = request.form['inputTournamentName']
+        _game = request.form['inputGameName']
+        _1place = request.form['input1Place']
+        _2place = request.form['input2Place']
+        _3place = request.form['input3Place']
+        _4place = request.form['input4Place']
+        _partpoints = request.form['inputParticipationPoints']
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.callproc('sp_createGame', (_tournament, _game, _entered_by, _1place, _2place, _3place, _4place))
+        data = cursor.fetchall()
+
+        if 'this' in data:   # check for error message
+            return render_template('error.html', error=data)
+
+        elif len(data) == 0:
+            conn.commit()
+            cursor.close()
+            conn.close()
+            message = 'results entered successfully'
+            return render_template('competitorHome.html', message=message)
+        else:
+            return render_template('error.html', error=data)
+
+    except Exception as e:
+        return render_template('error.html', error=str(e))
+
+
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     return redirect('/')
 
 if __name__ == "__main__":    # check if executed file is main program
-    app.run()
+    app.run(port=8080)

@@ -4,8 +4,11 @@ use comp_db;
 
 create table games (
   game_id int primary key not null auto_increment,
-  description varchar(50),
-  create_date date
+  tournament_id int not null,
+  description varchar(50) not null,
+  create_date datetime,
+  -- this should change to be user_id
+  created_by varchar(20)
 );
 
 create table game_points (
@@ -17,20 +20,31 @@ create table game_points (
 
 create table results (
   result_id int primary key not null auto_increment,
-  game_descr varchar(50) not null,
-  tournament_descr varchar(50) not null,
-  username varchar(50) not null,
+  session_id int not null,
+  game_id int not null,
+  tournament_id int not null,
+  user_id int not null,
   position int not null,
-  insert_date date
+  game_setup_time datetime not null,
+  results_confirmed_time datetime
+);
+
+create table game_sessions (
+  session_id int primary key not null auto_increment,
+  game_id int not null,
+  tournament_id int not null,
+  created_by int not null
 );
 
 create table tournaments (
   tournament_id int primary key not null auto_increment,
   description varchar(50) not null,
+  -- this should be changed to be user_id
   created_by varchar(20) not null,
   creation_date date
 );
 
+-- maybe change this to be 'competitors'
 create table users (
   user_id int primary key not null auto_increment,
   username varchar(20) not null,

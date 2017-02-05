@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>competition app - create game</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/competitorHome">home</a></li>
+            <li role="presentation" ><a href="/createTournament">create tournament</a></li>
+
+
+          </ul>
+        </nav>
+        <!-- <h3 class="text-muted">the muy grande competition app</h3> -->
+      </div>
+
+      <div class="jumbotron">
+        <h3>please enter game details below</h3>
+        <form class="form-signin" action="/validateGame" method="post">
+        <label for="inputTournamentName" class="sr-only">tournament name</label>
+        <input type="name" name="inputTournamentName" id="inputTournamentName" class="form-control" placeholder="tournament XXX" required autofocus>
+        <label for="inputGameName" class="sr-only">game name</label>
+        <input type="name" name="inputGameName" id="inputGameName" class="form-control" placeholder="game XXX" required autofocus>
+        <label for="input1Points" class="sr-only">points for first place</label>
+        <input type="number" name="input1Points" id="input1Points" class="form-control" placeholder="first place points" required>
+        <label for="input2Points" class="sr-only">points for second place</label>
+        <input type="number" name="input2Points" id="input2Points" class="form-control" placeholder="second place points" required>
+        <label for="input3Points" class="sr-only">points for third place</label>
+        <input type="number" name="input3Points" id="input3Points" class="form-control" placeholder="third place points" required>
+        <label for="input4Points" class="sr-only">points for fourth place</label>
+        <input type="number" name="input4Points" id="input4Points" class="form-control" placeholder="fourth place points" required>
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">create game</button>
+      </form>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; jslug 2017</p>
+      </footer>
+
+    </div>
+  </body>
+</html>

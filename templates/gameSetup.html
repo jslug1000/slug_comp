@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>competition app - create game</title>
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script>
+    $("#first-choice").change(function() {
+$("#second-choice").load("getter.php?choice=" + $("#first-choice").val());
+}).trigger("change");
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/competitorHome">home</a></li>
+            <li role="presentation" ><a href="/createTournament">create tournament</a></li>
+
+
+          </ul>
+        </nav>
+        <!-- <h3 class="text-muted">the muy grande competition app</h3> -->
+      </div>
+
+      <div class="jumbotron">
+        <h3>please enter game setup below</h3>
+        <form class="form-signin" action="/validatePoints" method="post">
+          <label for="inputTournamentName" class="sr-only">tournament name</label>
+          <input type="name" name="inputTournamentName" id="inputTournamentName" class="form-control" placeholder="tournament XXX" required autofocus>
+          <label for="inputGameName" class="sr-only">game name</label>
+          <input type="name" name="inputGameName" id="inputGameName" class="form-control" placeholder="game XXX" required autofocus>
+          <label for="inputCompetitor1" class="sr-only">competitor 1</label>
+          <input type="name" name="inputCompetitor1" id="inputCompetitor1" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor2" class="sr-only">competitor 2</label>
+          <input type="name" name="inputCompetitor2" id="inputCompetitor2" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor3" class="sr-only">competitor 3</label>
+          <input type="name" name="inputCompetitor3" id="inputCompetitor3" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor4" class="sr-only">competitor 4</label>
+          <input type="name" name="inputCompetitor4" id="inputCompetitor4" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor5" class="sr-only">competitor 5</label>
+          <input type="name" name="inputCompetitor5" id="inputCompetitor5" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor6" class="sr-only">competitor 6</label>
+          <input type="name" name="inputCompetitor6" id="inputCompetitor6" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor7" class="sr-only">competitor 7</label>
+          <input type="name" name="inputCompetitor7" id="inputCompetitor7" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor8" class="sr-only">competitor 8</label>
+          <input type="name" name="inputCompetitor8" id="inputCompetitor8" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor9" class="sr-only">competitor 9</label>
+          <input type="name" name="inputCompetitor9" id="inputCompetitor9" class="form-control" placeholder="competitor username">
+          <label for="inputCompetitor10" class="sr-only">competitor 10</label>
+          <input type="name" name="inputCompetitor10" id="inputCompetitor10" class="form-control" placeholder="competitor username">
+          <button id="btnSetupGame" class="btn btn-lg btn-primary btn-block" type="submit">setup game</button>
+      </form>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; jslug 2017</p>
+      </footer>
+
+    </div>
+  </body>
+</html>
