@@ -248,21 +248,29 @@ def setupGame():
 
 
 
-@app.route('/validateResults', methods=['POST', 'GET'])
-def validateResults():
+@app.route('/validateGameSetup', methods=['POST', 'GET'])
+def validateGameSetup():
     try:
         _entered_by = session.get('user')
         _tournament = request.form['inputTournamentName']
         _game = request.form['inputGameName']
-        _1place = request.form['input1Place']
-        _2place = request.form['input2Place']
-        _3place = request.form['input3Place']
-        _4place = request.form['input4Place']
-        _partpoints = request.form['inputParticipationPoints']
+        _competitor1 = request.form['inputCompetitor1']
+        _competitor2 = request.form['inputCompetitor2']
+        _competitor3 = request.form['inputCompetitor3']
+        _competitor4 = request.form['inputCompetitor4']
+        _competitor5 = request.form['inputCompetitor5']
+        _competitor6 = request.form['inputCompetitor6']
+        _competitor7 = request.form['inputCompetitor7']
+        _competitor8 = request.form['inputCompetitor8']
+        _competitor9 = request.form['inputCompetitor9']
+        _competitor10 = request.form['inputCompetitor10']
+
 
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.callproc('sp_createGame', (_tournament, _game, _entered_by, _1place, _2place, _3place, _4place))
+        cursor.callproc('sp_setupGame', (_tournament, _game, _entered_by, _competitor1, _competitor2, _competitor3,
+                                          _competitor4, _competitor5, _competitor6, _competitor7, _competitor8,
+                                          _competitor9, _competitor10))
         data = cursor.fetchall()
 
         if 'this' in data:   # check for error message

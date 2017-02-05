@@ -256,3 +256,80 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+
+
+
+DROP PROCEDURE IF EXISTS sp_setupGame;
+DELIMITER $$
+CREATE PROCEDURE `sp_setupGame`(
+    IN p_tournament_name VARCHAR(50),
+    IN p_game_name VARCHAR(50),
+    IN p_entered_by VARCHAR(20),
+    IN p_competitor1 VARCHAR(20),
+    IN p_competitor2 VARCHAR(20),
+    IN p_competitor3 VARCHAR(20),
+    IN p_competitor4 VARCHAR(20),
+    IN p_competitor5 VARCHAR(20),
+    IN p_competitor6 VARCHAR(20),
+    IN p_competitor7 VARCHAR(20),
+    IN p_competitor8 VARCHAR(20),
+    IN p_competitor9 VARCHAR(20),
+    IN p_competitor10 VARCHAR(20)
+
+)
+BEGIN
+    IF (select not exists (
+      select 1 from tournaments t where t.description=p_tournament_name)) THEN
+      select 'this tournament does not exist';
+
+    ELSEIF (select not exists (
+      select 1 from games g where g.description=p_game_name) ) THEN
+      select 'this game does not exist';
+
+    ELSEIF (select not exists (
+      select 1 from tournament_players tp
+
+      LEFT JOIN users u
+      on u.username = p_competitor1
+
+      LEFT JOIN tournaments t
+      on t.description=p_tournament_name
+
+      where u.user_id=tp.user_id
+      and t.tournament_id=tp.tournament_id 
+    )
+-- check if null
+    AND char_length(p_competitor1)>0) THEN
+      select concat('competitor 1 is not registered with this tournament');
+
+
+    ELSE
+
+        insert into game_sessions
+        (
+            game_id,
+            tournament_id,
+            created_by
+        )
+
+            select
+              t.tournament_id,
+              g.game_id,
+              u.user_id
+
+            from users u
+
+            left join tournaments t
+              on t.description = p_tournament_name
+            left join games g
+              on g.description = p_game_name
+
+            where u.username = p_entered_by
+        ;
+
+
+
+    END IF;
+END$$
+DELIMITER ;
